@@ -19,17 +19,21 @@ export const WalletButton = () => {
     return "Connect Wallet";
   };
 
-  const getButtonColor = () => {
-    if (status === "connecting") return "bg-yellow-700 hover:bg-yellow-800";
-    if (isConnected) return "bg-green-700 hover:bg-green-800";
-    return "bg-yellow-600 hover:bg-yellow-700";
+  const getButtonClass = () => {
+    if (status === "connecting") {
+      return "bg-ui-wallet opacity-70";
+    }
+    if (isConnected) {
+      return "bg-trading-long";
+    }
+    return "bg-ui-wallet hover:bg-ui-wallet-hover";
   };
 
   return (
     <button
       onClick={handleClick}
       disabled={status === "connecting"}
-      className={`px-4 py-2 rounded-lg font-medium text-white transition-colors ${getButtonColor()} disabled:opacity-50 disabled:cursor-not-allowed`}
+      className={`px-5 py-2.5 rounded-full font-medium text-sm transition-all text-ui-text-primary disabled:opacity-50 disabled:cursor-not-allowed ${getButtonClass()}`}
     >
       {getButtonText()}
     </button>

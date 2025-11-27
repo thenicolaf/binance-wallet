@@ -6,6 +6,15 @@ import {
   type ISeriesApi,
   type UTCTimestamp,
 } from "lightweight-charts";
+import { TradeFeed } from "./TradeFeed";
+
+// Chart colors from Tailwind config
+const CHART_COLORS = {
+  background: '#1a1a1a',
+  text: '#9CA3AF',
+  line: '#F0B90B',
+  grid: '#2a2a2a',
+};
 
 interface Trade {
   price: string;
@@ -22,7 +31,7 @@ export const Chart = ({ data }: ChartProps) => {
   const seriesRef = useRef<ISeriesApi<"Line"> | null>(null);
   const resizeObserverRef = useRef<ResizeObserver | null>(null);
 
-  // Создание графика при монтировании (useLayoutEffect для синхронной отрисовки)
+  // Create chart on mount (useLayoutEffect for synchronous rendering)
   useLayoutEffect(() => {
     if (!chartContainerRef.current) return;
 
@@ -30,21 +39,34 @@ export const Chart = ({ data }: ChartProps) => {
       width: chartContainerRef.current.clientWidth,
       height: 400,
       layout: {
-        background: { color: "#1a1a1a" },
-        textColor: "#d1d4dc",
+        background: { color: CHART_COLORS.background },
+        textColor: CHART_COLORS.text,
       },
       grid: {
-        vertLines: { color: "#2a2a2a" },
-        horzLines: { color: "#2a2a2a" },
+        vertLines: { color: CHART_COLORS.grid },
+        horzLines: { color: CHART_COLORS.grid },
       },
       timeScale: {
         timeVisible: true,
         secondsVisible: true,
       },
+      crosshair: {
+        mode: 1,
+        vertLine: {
+          color: CHART_COLORS.line,
+          width: 1,
+          style: 2,
+        },
+        horzLine: {
+          color: CHART_COLORS.line,
+          width: 1,
+          style: 2,
+        },
+      },
     });
 
     const lineSeries = chart.addSeries(LineSeries, {
-      color: "#2962FF",
+      color: CHART_COLORS.line,
       lineWidth: 2,
     });
 
@@ -59,7 +81,7 @@ export const Chart = ({ data }: ChartProps) => {
     };
   }, []);
 
-  // Обработка изменения размера с помощью ResizeObserver
+  // Handle resize using ResizeObserver
   useLayoutEffect(() => {
     if (!chartContainerRef.current || !chartRef.current) return;
 
@@ -84,24 +106,24 @@ export const Chart = ({ data }: ChartProps) => {
     };
   }, []);
 
-  // Обновление данных при изменении
+  // Update data when it changes
   useLayoutEffect(() => {
     if (!seriesRef.current || data.length === 0) return;
 
-    // Конвертация данных из Trade[] в формат lightweight-charts
+    // Convert Trade[] to lightweight-charts format
     const chartData = data.map((trade) => ({
-      time: Math.floor(trade.time / 1000) as UTCTimestamp, // конвертируем миллисекунды в секунды
+      time: Math.floor(trade.time / 1000) as UTCTimestamp, // Convert milliseconds to seconds
       value: parseFloat(trade.price),
     }));
 
-    // Сортируем данные по времени
+    // Sort data by time
     chartData.sort((a, b) => a.time - b.time);
 
-    // Убираем дубликаты по времени (оставляем последнее значение для каждого времени)
+    // Remove duplicates by time (keep last value for each timestamp)
     const uniqueData = chartData.reduce((acc, current) => {
       const existingIndex = acc.findIndex((item) => item.time === current.time);
       if (existingIndex >= 0) {
-        // Заменяем существующее значение на более позднее
+        // Replace existing value with the later one
         acc[existingIndex] = current;
       } else {
         acc.push(current);
@@ -113,6 +135,9 @@ export const Chart = ({ data }: ChartProps) => {
   }, [data]);
 
   return (
-    <div ref={chartContainerRef} style={{ width: "100%", height: "400px" }} />
+    <div className="relative">
+      <div ref={chartContainerRef} style={{ width: "100%", height: "400px" }} />
+      <TradeFeed />
+    </div>
   );
 };

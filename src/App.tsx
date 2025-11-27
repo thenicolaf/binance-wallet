@@ -2,58 +2,57 @@ import "./App.css";
 import { Chart } from "./ui/Chart";
 import { WalletButton } from "./ui/WalletButton";
 import { TimeIntervalSelector } from "./ui/TimeIntervalSelector";
+import { Header } from "./ui/Header";
+import { TokenSelector } from "./ui/TokenSelector";
+import { PriceDisplay } from "./ui/PriceDisplay";
+import { PositionDetails } from "./ui/PositionDetails";
+import { TradingButtons } from "./ui/TradingButtons";
+import { BottomNavigation } from "./ui/BottomNavigation";
 import { useChartInterval } from "./hooks/useChartInterval";
 import { useBinanceChartData } from "./hooks/useBinanceChartData";
 
 function App() {
   const { interval, setInterval } = useChartInterval();
-  const { trades, currentPrice, status, error } = useBinanceChartData(interval);
+  const { trades, currentPrice } = useBinanceChartData(interval);
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white p-4">
+    <div className="h-screen flex flex-col bg-background-primary">
       {/* Header */}
-      <header className="flex justify-between items-center mb-6">
-        <div>
-          <h1 className="text-2xl font-bold">Mini App</h1>
-          <p className="text-gray-400 text-sm">BTC/USDT - Binance</p>
+      <Header />
+
+      {/* Main content - scrollable */}
+      <div className="flex-1 overflow-y-auto">
+        {/* Token selector and Wallet button row */}
+        <div className="flex items-center justify-between">
+          <TokenSelector />
+          <div className="pr-4">
+            <WalletButton />
+          </div>
         </div>
-        <WalletButton />
-      </header>
 
-      {/* Status Bar */}
-      <div className="mb-4 text-center">
-        {status === "connecting" && (
-          <span className="text-yellow-400">🔄 Connecting...</span>
-        )}
-        {status === "connected" && (
-          <span className="text-green-400">✅ Connected</span>
-        )}
-        {status === "disconnected" && (
-          <span className="text-gray-400">⚠️ Disconnected</span>
-        )}
-        {error && <span className="text-red-400">❌ {error}</span>}
+        {/* Price display with change percentage */}
+        <PriceDisplay currentPrice={currentPrice} trades={trades} />
+
+        {/* Chart with trade feed overlay */}
+        <div className="px-4">
+          <Chart data={trades} />
+        </div>
+
+        {/* Time interval selector */}
+        <TimeIntervalSelector
+          currentInterval={interval}
+          onIntervalChange={setInterval}
+        />
+
+        {/* Position details */}
+        <PositionDetails />
+
+        {/* Trading buttons */}
+        <TradingButtons />
       </div>
 
-      {/* Current Price */}
-      <div className="text-center mb-6">
-        <h2 className="text-5xl font-bold">
-          ${currentPrice.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-        </h2>
-        <p className="text-gray-400 mt-2">
-          {trades.length} data points | {interval.toUpperCase()} interval
-        </p>
-      </div>
-
-      {/* Chart */}
-      <div className="mb-6">
-        <Chart data={trades} />
-      </div>
-
-      {/* Time Interval Selector */}
-      <TimeIntervalSelector
-        currentInterval={interval}
-        onIntervalChange={setInterval}
-      />
+      {/* Bottom navigation */}
+      <BottomNavigation />
     </div>
   );
 }
