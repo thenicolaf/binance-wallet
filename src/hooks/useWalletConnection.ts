@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useCallback } from "react";
 import { generateMockAddress } from "../utils/wallet";
 
 type WalletStatus = "disconnected" | "connecting" | "connected";
@@ -18,17 +18,15 @@ const STORAGE_KEY = "wallet_address";
  * Persists wallet address in localStorage
  */
 export const useWalletConnection = (): UseWalletConnectionReturn => {
-  const [walletAddress, setWalletAddress] = useState<string | null>(null);
-  const [status, setStatus] = useState<WalletStatus>("disconnected");
+  // Lazy initialization from localStorage
+  const [walletAddress, setWalletAddress] = useState<string | null>(() => {
+    return localStorage.getItem(STORAGE_KEY);
+  });
 
-  // Load wallet address from localStorage on mount
-  useEffect(() => {
+  const [status, setStatus] = useState<WalletStatus>(() => {
     const savedAddress = localStorage.getItem(STORAGE_KEY);
-    if (savedAddress) {
-      setWalletAddress(savedAddress);
-      setStatus("connected");
-    }
-  }, []);
+    return savedAddress ? "connected" : "disconnected";
+  });
 
   // Connect wallet - generates random address
   const connect = useCallback(() => {

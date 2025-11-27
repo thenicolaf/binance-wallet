@@ -2,17 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import type { ChartInterval } from "./useChartInterval";
 import { convertKlinesToTrades, type Trade } from "../utils/chart";
-import type { BinanceKline } from "./useBinanceRest";
-
-interface BinanceTradeMessage {
-  e: string; // Event type
-  E: number; // Event time
-  s: string; // Symbol
-  t: number; // Trade ID
-  p: string; // Price
-  q: string; // Quantity
-  T: number; // Trade time
-}
+import type { BinanceKline, BinanceTradeMessage } from "../types/binance";
 
 type ConnectionStatus = "connecting" | "connected" | "disconnected" | "error";
 

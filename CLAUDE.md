@@ -33,36 +33,41 @@ pnpm preview
 
 ## Architecture
 
-### Data Flow with React 19 `use()` Hook
+### Data Flow
 
-The application uses React 19's `use()` hook for data fetching:
+The application uses a unified data fetching approach with interval-based data source selection:
 
-1. **Real-time prices** via WebSocket (`useBinancePriceRealtime` hook)
+**Unified Data Hook** (`useBinanceChartData`)
+- Accepts `ChartInterval` parameter: `15s`, `1m`, `1h`, `1d`
+- **15s mode**: WebSocket real-time trades (`wss://stream.binance.com:9443/ws/btcusdt@trade`)
+  - Fetches initial price via REST
+  - Maintains last 100 trade points in circular buffer
+- **1m/1h/1d modes**: REST API kline data (`https://api.binance.com/api/v3/klines`)
+  - Fetches 100 historical candles for selected interval
 
-   - Initial price fetched via REST: `fetchCurrentPrice()` returns Promise consumed by `use()`
-   - WebSocket connects to `wss://stream.binance.com:9443/ws/{symbol}@trade`
-   - Maintains last 100 price points in circular buffer
-   - Component wrapped in `<Suspense>` for initial loading state
+### Custom Hooks
 
-2. **Historical data** via REST API (`useBinanceRest` hook)
-   - `fetchBinanceKlines()` returns Promise consumed by `use()` hook
-   - Fetches kline data from `https://api.binance.com/api/v3/klines`
-   - Default: 1-minute intervals, 100 data points
+All application logic abstracted into custom hooks in `src/hooks/`:
 
-### Custom Hooks Pattern
+- `useBinanceChartData.ts` - Unified data fetching (WebSocket + REST)
+- `useChartInterval.ts` - Time interval selection with localStorage persistence
+- `useWalletConnection.ts` - Mock wallet connection state with localStorage persistence
 
-All Binance API interactions abstracted into `src/hooks/`:
+### UI Components
 
-- `useBinancePriceRealtime.ts` - WebSocket connection + initial price via Promise
-- `useBinanceRest.ts` - Historical kline data via Promise
+Located in `src/ui/`:
+- `Chart.tsx` - Chart visualization using lightweight-charts v5
+  - `useLayoutEffect` for chart initialization (prevents flickering)
+  - `ResizeObserver` for responsive sizing
+  - Time deduplication logic: rounds milliseconds to seconds and removes duplicates
+- `WalletButton.tsx` - Mock wallet connection/disconnection button
+- `TimeIntervalSelector.tsx` - Time interval selector (15S/1M/1H/1D)
 
-### Chart Component (`src/ui/Chart.tsx`)
+### Utilities & Types
 
-- Uses `lightweight-charts` v5 with proper React lifecycle management
-- `useLayoutEffect` for chart initialization (prevents flickering)
-- `ResizeObserver` for responsive sizing
-- Time deduplication logic: rounds milliseconds to seconds and removes duplicates
-- Data must be sorted ascending by time before calling `setData()`
+- `src/utils/wallet.ts` - Wallet address generation and formatting
+- `src/utils/chart.ts` - Chart data conversion utilities
+- `src/types/binance.ts` - Binance API type definitions
 
 ## Code Style Requirements
 

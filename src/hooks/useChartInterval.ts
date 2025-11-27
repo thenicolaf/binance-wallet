@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useCallback } from "react";
 
 export type ChartInterval = "15s" | "1m" | "1h" | "1d";
 
@@ -24,15 +24,14 @@ const DEFAULT_INTERVAL: ChartInterval = "1m";
  * Persists selected interval in localStorage
  */
 export const useChartInterval = (): UseChartIntervalReturn => {
-  const [interval, setIntervalState] = useState<ChartInterval>(DEFAULT_INTERVAL);
-
-  // Load interval from localStorage on mount
-  useEffect(() => {
+  // Lazy initialization from localStorage
+  const [interval, setIntervalState] = useState<ChartInterval>(() => {
     const savedInterval = localStorage.getItem(STORAGE_KEY) as ChartInterval;
     if (savedInterval && BINANCE_INTERVAL_MAP[savedInterval] !== undefined) {
-      setIntervalState(savedInterval);
+      return savedInterval;
     }
-  }, []);
+    return DEFAULT_INTERVAL;
+  });
 
   // Set interval and persist to localStorage
   const setInterval = useCallback((newInterval: ChartInterval) => {

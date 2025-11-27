@@ -1,4 +1,4 @@
-import type { BinanceKline } from "../hooks/useBinanceRest";
+import type { BinanceKline } from "../types/binance";
 
 export interface Trade {
   price: string;
