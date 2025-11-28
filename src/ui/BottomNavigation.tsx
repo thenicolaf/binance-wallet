@@ -38,7 +38,7 @@ export const BottomNavigation = () => {
           return (
             <button
               key={tab.id}
-              className={`flex flex-col items-center gap-1 min-w-[60px] relative ${
+              className={`flex flex-col items-center gap-1 min-w-[60px] relative cursor-pointer ${
                 isActive ? "text-accent-gold" : "text-ui-text-secondary"
               }`}
             >

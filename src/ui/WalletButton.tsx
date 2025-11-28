@@ -33,7 +33,7 @@ export const WalletButton = () => {
     <button
       onClick={handleClick}
       disabled={status === "connecting"}
-      className={`px-5 py-2.5 rounded-full font-medium text-sm transition-all text-ui-text-primary disabled:opacity-50 disabled:cursor-not-allowed ${getButtonClass()}`}
+      className={`px-5 py-2.5 rounded-full font-medium text-sm transition-all text-ui-text-primary cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed ${getButtonClass()}`}
     >
       {getButtonText()}
     </button>

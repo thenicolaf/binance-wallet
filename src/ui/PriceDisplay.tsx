@@ -59,7 +59,7 @@ export const PriceDisplay = ({ currentPrice, trades }: PriceDisplayProps) => {
         <div className="flex items-center gap-3 mt-2">
           {/* Favorite/Heart icon */}
           <button
-            className="p-2 hover:opacity-80 transition-opacity"
+            className="p-2 hover:opacity-80 transition-opacity cursor-pointer"
             aria-label="Add to favorites"
           >
             <Heart className="w-6 h-6 text-ui-text-secondary" />
@@ -67,7 +67,7 @@ export const PriceDisplay = ({ currentPrice, trades }: PriceDisplayProps) => {
 
           {/* Settings icon */}
           <button
-            className="p-2 hover:opacity-80 transition-opacity"
+            className="p-2 hover:opacity-80 transition-opacity cursor-pointer"
             aria-label="Settings"
           >
             <Settings className="w-6 h-6 text-ui-text-secondary" />

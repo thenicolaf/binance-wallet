@@ -8,7 +8,7 @@ export const TradingButtons = () => {
       {/* Long button */}
       <button
         onClick={() => setSelectedPosition(selectedPosition === "long" ? null : "long")}
-        className={`flex-1 py-4 rounded-lg font-semibold text-base transition-all text-ui-text-primary ${
+        className={`flex-1 py-4 rounded-lg font-semibold text-base transition-all text-ui-text-primary cursor-pointer ${
           selectedPosition === "long"
             ? "bg-trading-long-hover"
             : "bg-trading-long"
@@ -20,7 +20,7 @@ export const TradingButtons = () => {
       {/* Short button */}
       <button
         onClick={() => setSelectedPosition(selectedPosition === "short" ? null : "short")}
-        className={`flex-1 py-4 rounded-lg font-semibold text-base transition-all text-ui-text-primary ${
+        className={`flex-1 py-4 rounded-lg font-semibold text-base transition-all text-ui-text-primary cursor-pointer ${
           selectedPosition === "short"
             ? "bg-trading-short-hover"
             : "bg-trading-short"

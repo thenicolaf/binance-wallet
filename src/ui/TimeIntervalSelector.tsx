@@ -29,7 +29,7 @@ export const TimeIntervalSelector = ({
             <button
               key={interval}
               onClick={() => onIntervalChange(interval)}
-              className={`px-6 py-2 rounded-lg font-medium text-sm transition-all border-2 ${
+              className={`px-6 py-2 rounded-lg font-medium text-sm transition-all border-2 cursor-pointer ${
                 isActive
                   ? "bg-accent-gold text-background-primary border-accent-gold"
                   : "bg-transparent text-ui-text-secondary border-ui-border"
