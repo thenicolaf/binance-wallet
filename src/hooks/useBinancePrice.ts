@@ -106,10 +106,9 @@ export function useBinancePrice(
             lastUpdateRef.current
           );
 
-          setPrice(result.price);
-          setLastTrade(result.lastTrade);
-
           if (result.trades) {
+            setPrice(result.price);
+            setLastTrade(result.lastTrade);
             lastUpdateRef.current = result.lastUpdateTime;
             return result.trades;
           }
