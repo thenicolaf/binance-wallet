@@ -8,11 +8,11 @@ import { PositionDetails } from "./ui/PositionDetails";
 import { TradingButtons } from "./ui/TradingButtons";
 import { BottomNavigation } from "./ui/BottomNavigation";
 import { useChartInterval } from "./hooks/useChartInterval";
-import { useBinanceChartData } from "./hooks/useBinanceChartData";
+import { useBinancePrice } from "./hooks/useBinancePrice";
 
 function App() {
   const { interval, setInterval } = useChartInterval();
-  const { trades, currentPrice } = useBinanceChartData(interval);
+  const { trades, currentPrice } = useBinancePrice(interval);
 
   return (
     <div className="h-screen flex flex-col bg-background-primary">

@@ -28,4 +28,26 @@ export interface BinanceTradeMessage {
   p: string; // Price
   q: string; // Quantity
   T: number; // Trade time
+  m: boolean; // Is buyer maker
+}
+
+// WebSocket kline message format
+// https://binance-docs.github.io/apidocs/spot/en/#kline-candlestick-streams
+export interface BinanceKlineMessage {
+  e: string; // Event type
+  E: number; // Event time
+  s: string; // Symbol
+  k: {
+    t: number; // Kline start time
+    T: number; // Kline close time
+    s: string; // Symbol
+    i: string; // Interval
+    o: string; // Open price
+    c: string; // Close price
+    h: string; // High price
+    l: string; // Low price
+    v: string; // Base asset volume
+    n: number; // Number of trades
+    x: boolean; // Is this kline closed?
+  };
 }
