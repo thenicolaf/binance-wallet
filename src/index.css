@@ -1,68 +1,47 @@
-:root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+@import "tailwindcss";
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+@theme {
+  /* Background colors */
+  --color-background-primary: #0a0a0a;
+  --color-background-secondary: #1a1a1a;
+  --color-background-card: #1f1f1f;
 
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  /* Accent colors */
+  --color-accent-gold: #f0b90b;
+  --color-accent-gold-dark: #d9a309;
+
+  /* Trading colors */
+  --color-trading-long: #2d5f4f;
+  --color-trading-long-hover: #3a7561;
+  --color-trading-short: #5f2d2d;
+  --color-trading-short-hover: #733737;
+  --color-trading-positive: #10b981;
+  --color-trading-negative: #ef4444;
+
+  /* UI colors */
+  --color-ui-wallet: #4a5568;
+  --color-ui-wallet-hover: #5a6578;
+  --color-ui-border: #2a2a2a;
+  --color-ui-text-primary: #ffffff;
+  --color-ui-text-secondary: #9ca3af;
+  --color-ui-text-tertiary: #6b7280;
+
+  /* Chart colors */
+  --color-chart-line: #f0b90b;
+  --color-chart-grid: #2a2a2a;
+  --color-chart-tooltip: #2d5f4f;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
+/* Base styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
-}
-
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
-
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }

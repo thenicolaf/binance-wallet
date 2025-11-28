@@ -1,4 +1,3 @@
-import "./App.css";
 import { Chart } from "./ui/Chart";
 import { WalletButton } from "./ui/WalletButton";
 import { TimeIntervalSelector } from "./ui/TimeIntervalSelector";
